@@ -17,12 +17,12 @@ const NavBar = () => {
       </Link>
       {/* Navigation Links */}
       <div className="hidden items-center md:flex space-x-6">
-        <a
-          href="#"
+        <Link
+          to="/create"
           className="text-white hover:text-[#F5167E]  transition-colors duration-200"
         >
           Create
-        </a>
+        </Link>
         <a
           href="#"
           className="text-white hover:text-[#F5167E]  transition-colors duration-200"
