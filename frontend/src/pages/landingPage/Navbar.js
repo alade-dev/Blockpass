@@ -47,6 +47,12 @@ const NavBar = () => {
         >
           Contact
         </a>
+        <Link
+          to={'/my-tickets'}
+          className="text-white hover:text-[#F5167E] transition-colors duration-200"
+        >
+          My tickets
+        </Link>
 
         {/* Connect Button */}
         <a
