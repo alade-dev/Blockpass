@@ -35,6 +35,24 @@ const MyTickets = () => {
           </div>
         </Link>
         <div className="hidden items-center md:flex space-x-6">
+        <Link
+          to="/"
+          className="text-black hover:text-[#F5167E]  transition-colors duration-200"
+        >
+          Home
+        </Link>
+        <Link
+          to="/create"
+          className="text-black hover:text-[#F5167E]  transition-colors duration-200"
+        >
+          Create
+        </Link>
+        <Link
+          to={"/gallery"}
+          className="text-black hover:text-[#F5167E]  transition-colors duration-200"
+        >
+          Gallery
+        </Link>
           <Link
             to={"/my-tickets"}
             className="text-black hover:text-[#F5167E] transition-colors duration-200"

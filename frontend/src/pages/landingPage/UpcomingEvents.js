@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { events } from "./data"; 
+import { events } from "../../data";
 
 const UpcomingEvents = () => {
   const [filteredEvents, setFilteredEvents] = useState(events);
@@ -8,37 +8,36 @@ const UpcomingEvents = () => {
     eventType: "",
     category: "",
   });
-  const [showLoadMore, setShowLoadMore] = useState(true); 
-
+  const [showLoadMore, setShowLoadMore] = useState(true);
 
   const handleFilter = (filterType, value) => {
     const updatedFilters = { ...filters, [filterType]: value };
     setFilters(updatedFilters);
     if (value === "All") {
-        setShowLoadMore(true);
-      } else {
-        setShowLoadMore(false);
-        }
+      setShowLoadMore(true);
+    } else {
+      setShowLoadMore(false);
+    }
 
     let updatedEvents = events;
     if (value && value !== "All") {
-        if (filterType === "weekdays") {
-          updatedEvents = updatedEvents.filter(
-            (event) => event.weekday === value
-          );
-        } else if (filterType === "eventType") {
-          updatedEvents = updatedEvents.filter(
-            (event) => event.eventType === value
-          );
-        } else if (filterType === "category") {
-          updatedEvents = updatedEvents.filter(
-            (event) => event.category === value
-          );
-        }
+      if (filterType === "weekdays") {
+        updatedEvents = updatedEvents.filter(
+          (event) => event.weekday === value
+        );
+      } else if (filterType === "eventType") {
+        updatedEvents = updatedEvents.filter(
+          (event) => event.eventType === value
+        );
+      } else if (filterType === "category") {
+        updatedEvents = updatedEvents.filter(
+          (event) => event.category === value
+        );
       }
-    
-      setFilteredEvents(updatedEvents);
-    };
+    }
+
+    setFilteredEvents(updatedEvents);
+  };
 
   const uniqueCategories = [...new Set(events.map((event) => event.category))];
   const uniqueEventTypes = [...new Set(events.map((event) => event.eventType))];
@@ -47,9 +46,9 @@ const UpcomingEvents = () => {
   const handleLoadMore = async () => {
     // '/api/more-events'
     try {
-        const moreEventsResponse = await fetch(); // Replace with your actual API endpoint
+      const moreEventsResponse = await fetch(); // Replace with your actual API endpoint
       const moreEvents = await moreEventsResponse.json();
-      setFilteredEvents(prevEvents => [...prevEvents, ...moreEvents]);
+      setFilteredEvents((prevEvents) => [...prevEvents, ...moreEvents]);
     } catch (error) {
       console.error("Failed to load more events:", error);
     }
@@ -75,7 +74,7 @@ const UpcomingEvents = () => {
             <select
               id="weekdays"
               className="border border-[#F2F4FF] bg-[#F2F4FF] rounded-md px-2 py-1"
-                onChange={(e) => handleFilter("weekdays", e.target.value)}
+              onChange={(e) => handleFilter("weekdays", e.target.value)}
             >
               <option value="All"></option>
               {uniqueWeekdays.map((category, index) => (
@@ -83,7 +82,6 @@ const UpcomingEvents = () => {
                   {category}
                 </option>
               ))}
-             
             </select>
           </div>
           <div className="mr-4 lg:block hidden text-[#1D275F] bg-[#F2F4FF] px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75">
@@ -101,7 +99,6 @@ const UpcomingEvents = () => {
                   {eventType}
                 </option>
               ))}
-       
             </select>
           </div>
           <div className="mr-4 lg:block hidden text-[#1D275F] bg-[#F2F4FF] px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75">
@@ -141,7 +138,7 @@ const UpcomingEvents = () => {
                   {formatDate(event.date).split(" ")[0]}
                 </p>
                 <p className="text-black text-3xl font-bold">
-                  {formatDate(event.date).split(" ")[1]} 
+                  {formatDate(event.date).split(" ")[1]}
                 </p>
               </div>
               <div className="flex-grow text-center flex flex-col justify-center">
@@ -161,10 +158,13 @@ const UpcomingEvents = () => {
       </div>
       {showLoadMore && (
         <div className="text-center mt-8 mb-8">
-        <button onClick={handleLoadMore} className="text-[#3D37F1] font-bold hover:bg-purple-900/25 px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-[#3D37F1] ring-opacity-50 hover:ring-opacity-75">
-          Load More
-        </button>
-      </div>
+          <button
+            onClick={handleLoadMore}
+            className="text-[#3D37F1] font-bold hover:bg-purple-900/25 px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-[#3D37F1] ring-opacity-50 hover:ring-opacity-75"
+          >
+            Load More
+          </button>
+        </div>
       )}
     </div>
   );

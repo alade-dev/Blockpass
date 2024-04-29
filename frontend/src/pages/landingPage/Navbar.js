@@ -1,13 +1,98 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import Web3 from "web3";
 import logo from "../../assets/logos/logo.png";
 
 const NavBar = () => {
+  const [accountAddress, setAccountAddress] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
+  useEffect(() => {
+    const loadWeb3 = async () => {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          await setScrollSepoliaNetwork(web3);
+          const accounts = await web3.eth.getAccounts();
+          if (accounts.length > 0) {
+            setAccountAddress(accounts[0]);
+          }
+        } catch (error) {
+          console.error("User denied account access");
+        }
+      } else {
+        console.error("MetaMask is not installed");
+      }
+    };
+
+    loadWeb3();
+  }, []);
+
+  const connectMetaMask = async () => {
+    setIsConnecting(true);
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        await setScrollSepoliaNetwork(web3);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length > 0) {
+          setAccountAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("User denied account access");
+      } finally {
+        setIsConnecting(false);
+      }
+    } else {
+      console.error("MetaMask is not installed");
+      setIsConnecting(false);
+    }
+  };
+
+  const setScrollSepoliaNetwork = async (web3) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "534351", // Scroll Sepolia chain ID
+            chainName: "Scroll Sepolia",
+            nativeCurrency: {
+              name: "Sepolia Ether",
+              symbol: "ETH",
+              decimals: 18,
+            },
+            rpcUrls: ["https://scroll-testnet.rpc.grove.city/v1/a7a7c8e2"],
+            blockExplorerUrls: ["https://sepolia.scan.scroll.io"],
+          },
+        ],
+      });
+    } catch (addError) {
+      console.error(
+        "Error adding Scroll Sepolia network to MetaMask:",
+        addError
+      );
+    }
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const formatAddress = (address) => {
+    if (address.length > 0) {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    }
+    return "";
+  };
+
   return (
-    <nav className="container flex justify-between mx-auto items-center px-8 py-4">
+    <nav className="container flex justify-between lg:relative mx-auto items-center px-8 py-4">
       {/* Logo and Brand Name */}
       <Link to="/">
         <div className="flex items-center">
@@ -15,67 +100,83 @@ const NavBar = () => {
           <span className="text-white font-semibold text-lg">BlockPass</span>
         </div>
       </Link>
+      {/* Hamburger Button */}
+      <button
+        className="md:hidden text-white hover:text-[#F5167E] focus:outline-none"
+        onClick={toggleMenu}
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+          />
+        </svg>
+      </button>
+
       {/* Navigation Links */}
-      <div className="hidden items-center md:flex space-x-6">
+      <div
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } md:flex md:items-center md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-black/30 md:bg-transparent p-4 md:p-0 z-10`}
+      >
         <Link
           to="/create"
-          className="text-white hover:text-[#F5167E]  transition-colors duration-200"
+          className="block md:inline-block text-white hover:text-[#F5167E] transition-colors duration-200 py-2 md:py-0"
+          onClick={toggleMenu}
         >
           Create
         </Link>
         <a
           href="#"
-          className="text-white hover:text-[#F5167E]  transition-colors duration-200"
+          className="block md:inline-block text-white hover:text-[#F5167E] transition-colors duration-200 py-2 md:py-0"
+          onClick={toggleMenu}
         >
           All Events
         </a>
-        <a
-          href="#"
-          className="text-white hover:text-[#F5167E]  transition-colors duration-200"
+        <Link
+          to={"/gallery"}
+          className="block md:inline-block text-white hover:text-[#F5167E] transition-colors duration-200 py-2 md:py-0"
+          onClick={toggleMenu}
         >
           Gallery
-        </a>
+        </Link>
         <a
           href="#"
-          className="text-white hover:text-[#F5167E]  transition-colors duration-200"
-        >
-          Ticket
-        </a>
-        <a
-          href="#"
-          className="text-white hover:text-[#F5167E] transition-colors duration-200"
+          className="block md:inline-block text-white hover:text-[#F5167E] transition-colors duration-200 py-2 md:py-0"
+          onClick={toggleMenu}
         >
           Contact
         </a>
         <Link
-          to={'/my-tickets'}
-          className="text-white hover:text-[#F5167E] transition-colors duration-200"
+          to={"/my-tickets"}
+          className="block md:inline-block text-white hover:text-[#F5167E] transition-colors duration-200 py-2 md:py-0"
+          onClick={toggleMenu}
         >
           My tickets
         </Link>
-
         {/* Connect Button */}
-        <a
-          href="#"
-          className="text-white bg-purple-800/30 hover:bg-purple-900 px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
+        <button
+          onClick={connectMetaMask}
+          className="block md:inline-block text-white bg-purple-800/30 hover:bg-purple-900 px-4 py-2 rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
+          disabled={isConnecting}
         >
-          Connect
-        </a>
+          {isConnecting
+            ? "Connecting..."
+            : accountAddress
+            ? formatAddress(accountAddress)
+            : "Connect"}
+        </button>
       </div>
     </nav>
   );
 };
 
 export default NavBar;
-
-<nav className="container flex justify-between items-center px-8 py-4">
-  <div className="text-white text-2xl font-bold">BlockPass</div>
-  <div className="flex space-x-8 text-white">
-    <span>Create</span>
-    <span>All Events</span>
-    <span>Gallery</span>
-    <span>Ticket</span>
-    <span>Contact</span>
-    <button className="bg-purple-600 px-4 py-2 rounded-full">Connect</button>
-  </div>
-</nav>;

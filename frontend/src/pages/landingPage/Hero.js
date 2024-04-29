@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link } from "react-router-dom";
 
 import heroBackgroundImage from "../../assets/hero-background.jpg";
 
@@ -18,11 +19,11 @@ const HeroSection = () => {
           BlockPass is the first and best Web3 event management system
         </p>
         <div className="flex space-x-4 mt-8">
-          <a href="#">
+          <Link to={'/gallery'}>
             <button className="bg-[#F5167E] hover:bg-pink-700  text-white px-8 py-4 rounded-full">
               Get Ticket
             </button>
-          </a>
+          </Link>
           <a href="#">
             <button className="bg-purple-600 hover:bg-purple-900 bg-opacity-10 ring-1 ring-white text-white px-8 py-4 rounded-full">
               Learn More
