@@ -1,46 +1,6 @@
-# BlockPass Smart Contract
+**BlockPass SmartContract: Decentralized Event Ticketing Contract**
 
-Welcome to the BlockPass smart contract repository! BlockPass is a decentralized platform on the Scroll blockchain for creating and managing block passes tickets, implemented as non-fungible tokens (NFTs) following the ERC721 standard.
-
-## Features
-
-- Organizers can create and manage block passes for various events.
-- Users can purchase block passes by acquiring NFTs.
-- Block passes have attributes such as metadata, category, maximum pass count, pass price, start time, and sales end time.
-- Secure handling of pass sales through blockchain transactions.
-- Organizers receive the proceeds from pass sales, with a small fee deducted for platform maintenance.
-- Users can track their acquired block passes and view events they've created.
-- Events can be categorized, and users can search for events based on categories.
-- Block passes can be removed by the organizer if no passes have been sold.
-
-## Deployed Contract Address
-
-Find below the address of the deployed BlockPass smart contract on the Scroll network:
-
-- [BP Contract](https://etherscan.io/address/0xabcde12345)
-
-## Contract Deployment Instructions
-
-To deploy the BlockPass smart contract, follow these steps:
-
-1. Compile the BlockPass.sol file using a Solidity compiler like Remix or Hardhat.
-
-2. Deploy the contract to the Scroll network of your choice, ensuring that the constructor is executed during deployment.
-
-3. After successful deployment, make a note of the contract address provided by the deployment tool.
-
-4. Interact with the deployed contract by calling its functions or using a user interface that connects to the contract.
-
-## License
-
-The BlockPass smart contract is licensed under the MIT License. Refer to the [LICENSE](LICENSE) file for details.
-
-
--------------
-
-**BlockPass: Decentralized Event Ticketing Platform**
-
-Welcome to BlockPass, the decentralized platform revolutionizing event ticketing through blockchain technology and non-fungible tokens (NFTs). This README will guide you through the process of getting started with BlockPass, from installation to using the Smartcontract effectively.
+Welcome to BlockPass, the decentralized contract revolutionizing event ticketing through blockchain technology and non-fungible tokens (NFTs). This README will guide you through the process of getting started with BlockPass, from installation to using the Smartcontract effectively.
 
 ### Table of Contents
 1. [Introduction](#introduction)
@@ -50,6 +10,7 @@ Welcome to BlockPass, the decentralized platform revolutionizing event ticketing
     - [Purchasing a Pass](#purchasing-a-pass)
 4. [Key Features](#key-features)
 5. [Contributing](#contributing)
+6. [Deployed Address](#deployed-address)
 6. [Support](#support)
 7. [License](#license)
 
@@ -111,6 +72,12 @@ We welcome contributions from the community to help improve BlockPass. If you'd 
 1. Fork the repository.
 2. Make your changes in a new branch.
 3. Submit a pull request detailing your changes.
+
+### Deployed Address
+
+Find below the address of the deployed BlockPass smart contract on the Scroll network:
+
+- [BlockPass Address](https://sepolia.scrollscan.com/address/0xD05E461F5CE3D721d614aD881FcB73cCA74D61D4#code)
 
 ### Support
 If you encounter any issues or have questions about BlockPass, please reach out to us through the following channels:
