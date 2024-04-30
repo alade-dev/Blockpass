@@ -14,6 +14,7 @@ In a world where event ticket scalping, price manipulation, and counterfeit tick
 9. [Future Outlook](#future-outlook)
 10. [Saving Lives Through Fair Ticketing](#saving-lives-through-fair-ticketing)
 11. [Join Us](#join-us)
+12. [Additional Resources](#additional-resources)
 
 ## Introduction
 
