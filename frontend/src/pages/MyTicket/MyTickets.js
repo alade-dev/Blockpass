@@ -50,7 +50,6 @@ const MyTickets = () => {
 
   const connectMetaMask = async () => {
     setIsConnecting(true);
-    setWalletConnected(true);
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum);
       try {
@@ -64,7 +63,7 @@ const MyTickets = () => {
         console.error("User denied account access");
       } finally {
         setIsConnecting(false);
-        setWalletConnected(true);
+        console.log(accountAddress);
       }
     } else {
       console.error("MetaMask is not installed");

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { events } from "../../data";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
+import { getAllEvents } from "../MyTicket/ticketApi";
 
 import logo from "../../assets/logos/logo.png";
 
@@ -37,6 +38,7 @@ const EventGallery = () => {
     };
 
     loadWeb3();
+    getAllEvents();
   }, []);
 
   const connectMetaMask = async () => {

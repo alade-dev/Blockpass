@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import logo from "../../assets/logos/logo.png";
+import Web3 from "web3";
+import { NFTStorage, File } from "nft.storage";
+import { createEvent } from "../MyTicket/ticketApi";
 
 const CreateEventForm = () => {
+  const [accountAddress, setAccountAddress] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     eventName: "",
     category: "",
@@ -42,11 +49,65 @@ const CreateEventForm = () => {
     document.getElementById("banner").value = "";
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Process form data submission here via an API call
+    // Upload the metadata to IPFS
+    let meta_url; 
+    try {
+      const NFT_STORAGE_TOKEN =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDdjMTVkRTM4NUU0Mzc1M0RBODNGZUE0NjgzZkZhMzc4RTFjZTUyZjEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODk3NjUxMTc3NCwibmFtZSI6IkRvY1QifQ.t7bF1OuxuS6S9QMP_rfl72fYMneOa1jzs-mZhdjEhog";
+      const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+      const imageFile = new File([formData.banner], formData.banner.name, {
+        type: formData.banner.type,
+      });
+
+      // console.log(imageFile);
+
+      const metadata = await client.store({
+        name: formData.eventName,
+        image: imageFile,
+        category: formData.category,
+        description: formData.description,
+        moreInformation: formData.moreInformation,
+        ticketPrice: formData.ticketPrice,
+        availableSeats: formData.availableSeats,
+        location: formData.location,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        timeOfEvent: formData.timeOfEvent,
+
+      });
+
+      meta_url = metadata.url
+    }
+      catch (err) {
+        console.log(err);
+      }
+
+
 
     console.log(formData);
+    try {
+      const start_date = formData.startDate;
+      const end_date = formData.endDate;
+      const epochTime_start = Date.parse(start_date) / 1000;
+      const epochTime_end = Date.parse(end_date) / 1000;
+      const salesEndTime = epochTime_end - epochTime_start;
+      
+
+      const result = await createEvent(
+        formData.availableSeats,
+        epochTime_start,
+        salesEndTime,
+        formData.ticketPrice,
+        meta_url,
+        formData.category,
+      );
+      console.log(result);
+    } catch (error) {
+      
+    }
 
     setFormData({
       eventName: "",
@@ -65,6 +126,88 @@ const CreateEventForm = () => {
 
     e.target.reset();
     document.getElementById("banner").value = "";
+  };
+
+  useEffect(() => {
+    const loadWeb3 = async () => {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          await setScrollSepoliaNetwork(web3);
+          const accounts = await web3.eth.getAccounts();
+          if (accounts.length > 0) {
+            setAccountAddress(accounts[0]);
+          }
+        } catch (error) {
+          console.error("User denied account access");
+        }
+      } else {
+        console.error("MetaMask is not installed");
+      }
+    };
+
+    loadWeb3();
+  }, []);
+
+  const connectMetaMask = async () => {
+    setIsConnecting(true);
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        await setScrollSepoliaNetwork(web3);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length > 0) {
+          setAccountAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("User denied account access");
+      } finally {
+        setIsConnecting(false);
+        console.log(accountAddress);
+      }
+    } else {
+      console.error("MetaMask is not installed");
+      setIsConnecting(false);
+    }
+  };
+
+  const setScrollSepoliaNetwork = async (web3) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "0x8274F", // Scroll Sepolia chain ID
+            chainName: "Scroll Sepolia",
+            nativeCurrency: {
+              name: "Sepolia Ether",
+              symbol: "ETH",
+              decimals: 18,
+            },
+            rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+            blockExplorerUrls: ["https://sepolia.scrollscan.dev"],
+          },
+        ],
+      });
+    } catch (addError) {
+      console.error(
+        "Error adding Scroll Sepolia network to MetaMask:",
+        addError
+      );
+    }
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const formatAddress = (address) => {
+    if (address.length > 0) {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    }
+    return "";
   };
 
   return (
@@ -111,12 +254,17 @@ const CreateEventForm = () => {
           </Link>
 
           {/* Connect Button */}
-          <Link
-            to="#"
-            className="text-white bg-purple-800/85 hover:bg-purple-900 px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
-          >
-            Connect
-          </Link>
+          <button
+          onClick={connectMetaMask}
+          className="block md:inline-block text-white bg-purple-800/30 hover:bg-purple-900 px-4 py-2 rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
+          disabled={isConnecting}
+        >
+          {isConnecting
+            ? "Connecting..."
+            : accountAddress
+            ? formatAddress(accountAddress)
+            : "Connect"}
+        </button>
         </div>
       </nav>
       <div className="max-w-6xl mx-auto my-10 p-8 ">
