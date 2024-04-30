@@ -1,4 +1,4 @@
-**BlockPass SmartContract: Decentralized Event Ticketing Contract**
+# BlockPass SmartContract: Decentralized Event Ticketing Contract
 
 Welcome to BlockPass, the decentralized contract revolutionizing event ticketing through blockchain technology and non-fungible tokens (NFTs). This README will guide you through the process of getting started with BlockPass, from installation to using the Smartcontract effectively.
 
