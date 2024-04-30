@@ -1,4 +1,4 @@
-# BlockPass SmartContract: Decentralized Event Ticketing Contract
+### BlockPass SmartContract: Decentralized Event Ticketing Contract
 
 Welcome to BlockPass, the decentralized contract revolutionizing event ticketing through blockchain technology and non-fungible tokens (NFTs). This README will guide you through the process of getting started with BlockPass, from installation to using the Smartcontract effectively.
 
@@ -9,10 +9,12 @@ Welcome to BlockPass, the decentralized contract revolutionizing event ticketing
     - [Creating a New Pass](#creating-a-new-pass)
     - [Purchasing a Pass](#purchasing-a-pass)
 4. [Key Features](#key-features)
-5. [Contributing](#contributing)
-6. [Deployed Address](#deployed-address)
-6. [Support](#support)
-7. [License](#license)
+5. [Chainlink Integration](#chainlink-integration)
+6. [The Graph Protocol Integration](#the-graph-protocol-integration)
+7. [Contributing](#contributing)
+8. [Deployed Address](#deployed-address)
+9. [Support](#support)
+10. [License](#license)
 
 ### Introduction
 BlockPass is a decentralized platform built on the Scroll blockchain, designed to address the challenges of traditional event ticketing systems. By leveraging blockchain technology and NFTs, BlockPass ensures fair ticket pricing, prevents scalping, and guarantees the authenticity of event tickets.
@@ -67,6 +69,21 @@ To purchase a pass on BlockPass as an attendee, follow these steps:
 ### Chainlink Integration
 BlockPass integrates Chainlink price feeds to enable dynamic pricing of event passes. The `updateFeedPrice` function in the smart contract retrieves real-time asset prices from Chainlink oracles and adjusts the pass price accordingly. This ensures that pass prices remain fair and reflect current market conditions.
 
+### The Graph Protocol Integration
+BlockPass utilizes the Graph Protocol for efficient indexing and querying of blockchain data. The BlockPass subgraph indexes data related to event passes, including pass details, transaction history, and user interactions. Users can query the subgraph to retrieve information such as available event passes, pass prices, user bookings, and more, facilitating seamless interaction with the BlockPass platform.
+
+#### New Subgraph(s) for BlockPass
+
+**Link to the Deployed Subgraph:**
+- [BlockPass Subgraph](https://thegraph.com/studio/subgraph/blockpass)
+
+**Link to the Subgraph Source Code:**
+- [BlockPass Subgraph Source Code](../hardhat/blockpass)
+
+**Data Indexed and Queried Using the Subgraph:**
+- The BlockPass subgraph indexes data related to event passes, including pass details (such as metadata, category, and pricing), transaction history (pass purchases), and user interactions (pass bookings). 
+- Users can query the subgraph to retrieve information such as available event passes, pass prices, user bookings, and more, facilitating seamless interaction with the BlockPass platform.
+
 ### Contributing
 We welcome contributions from the community to help improve BlockPass. If you'd like to contribute, please follow these steps:
 1. Fork the repository.
@@ -88,4 +105,3 @@ If you encounter any issues or have questions about BlockPass, please reach out 
 BlockPass is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 Thank you for choosing BlockPass for your event ticketing needs! 🎫🚀
-
