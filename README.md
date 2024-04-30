@@ -8,7 +8,7 @@ In a world where event ticket scalping, price manipulation, and counterfeit tick
 3. [Solution](#solution)
 4. [Key Features](#key-features)
 5. [Integration with Chainlink](#integration-with-chainlink)
-6. [Graph Protocol Integration](#graph-protocol-integration)
+6. [The Graph Protocol Integration](#graph-protocol-integration)
 7. [Motivation](#motivation)
 8. [Impact](#impact)
 9. [Future Outlook](#future-outlook)
@@ -39,7 +39,7 @@ BlockPass provides a decentralized solution to these problems by leveraging bloc
 
 BlockPass integrates Chainlink price feeds to enable dynamic pricing of event passes. This ensures that pass prices remain fair and reflect current market conditions.
 
-## Graph Protocol Integration
+## The Graph Protocol Integration
 
 To index and query data efficiently, BlockPass utilizes the Graph Protocol. This enables seamless access to blockchain data, enhancing the user experience and enabling powerful analytics.
 
