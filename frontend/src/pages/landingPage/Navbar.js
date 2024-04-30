@@ -60,15 +60,15 @@ const NavBar = () => {
         method: "wallet_addEthereumChain",
         params: [
           {
-            chainId: "534351", // Scroll Sepolia chain ID
+            chainId: "0x8274F", // Scroll Sepolia chain ID
             chainName: "Scroll Sepolia",
             nativeCurrency: {
               name: "Sepolia Ether",
               symbol: "ETH",
               decimals: 18,
             },
-            rpcUrls: ["https://scroll-testnet.rpc.grove.city/v1/a7a7c8e2"],
-            blockExplorerUrls: ["https://sepolia.scan.scroll.io"],
+            rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+            blockExplorerUrls: ["https://sepolia.scrollscan.dev"],
           },
         ],
       });
