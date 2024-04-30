@@ -1,18 +1,103 @@
 import React, { useState, useEffect } from "react";
 import { events } from "../../data";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
 
 import logo from "../../assets/logos/logo.png";
 
 let eventData = events;
 const EventGallery = () => {
   const [events, setEvents] = useState(eventData);
+  const [accountAddress, setAccountAddress] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   //   useEffect(() => {
   //     // Fetch the events from an API or service
   //     // This is a placeholder for now
   //     setEvents(eventData);
   //   }, []);
+  useEffect(() => {
+    const loadWeb3 = async () => {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          await setScrollSepoliaNetwork(web3);
+          const accounts = await web3.eth.getAccounts();
+          if (accounts.length > 0) {
+            setAccountAddress(accounts[0]);
+          }
+        } catch (error) {
+          console.error("User denied account access");
+        }
+      } else {
+        console.error("MetaMask is not installed");
+      }
+    };
+
+    loadWeb3();
+  }, []);
+
+  const connectMetaMask = async () => {
+    setIsConnecting(true);
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        await setScrollSepoliaNetwork(web3);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length > 0) {
+          setAccountAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("User denied account access");
+      } finally {
+        setIsConnecting(false);
+      }
+    } else {
+      console.error("MetaMask is not installed");
+      setIsConnecting(false);
+    }
+  };
+  const setScrollSepoliaNetwork = async (web3) => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: "0x8274F", // Scroll Sepolia chain ID
+            chainName: "Scroll Sepolia",
+            nativeCurrency: {
+              name: "Sepolia Ether",
+              symbol: "ETH",
+              decimals: 18,
+            },
+            rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+            blockExplorerUrls: ["https://sepolia.scrollscan.dev"],
+          },
+        ],
+      });
+    } catch (addError) {
+      console.error(
+        "Error adding Scroll Sepolia network to MetaMask:",
+        addError
+      );
+    }
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const formatAddress = (address) => {
+    if (address.length > 0) {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    }
+    return "";
+  };
+
+
   const formatDate = (dateString) => {
     const options = { month: "short", day: "numeric" };
     return new Date(dateString).toLocaleDateString("en-US", options);
@@ -62,12 +147,17 @@ const EventGallery = () => {
           </Link>
 
           {/* Connect Button */}
-          <Link
-            to="#"
-            className="text-white bg-purple-800/85 hover:bg-purple-900 px-4 py-2  rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
-          >
-            Connect
-          </Link>
+          <button
+          onClick={connectMetaMask}
+          className="block md:inline-block text-white bg-purple-800/30 hover:bg-purple-900 px-4 py-2 rounded-full transition-colors duration-200 ring-2 ring-white ring-opacity-50 hover:ring-opacity-75"
+          disabled={isConnecting}
+        >
+          {isConnecting
+            ? "Connecting..."
+            : accountAddress
+            ? formatAddress(accountAddress)
+            : "Connect"}
+        </button>
         </div>
       </nav>
       <div className="max-w-6xl mx-auto my-10 p-8 ">
