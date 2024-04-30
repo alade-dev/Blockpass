@@ -63,8 +63,6 @@ Beyond revolutionizing event ticketing, BlockPass has the potential to save live
 
 Are you ready to join the revolution in event ticketing? Get involved with BlockPass today and be part of a movement that's changing the game for fans and organizers worldwide.
 
-Certainly! Let's add a section to the README where users can be redirected to the Hardhat smart contract README:
-
 ---
 
 ### Additional Resources
