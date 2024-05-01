@@ -102,6 +102,6 @@ If you encounter any issues or have questions about BlockPass, please reach out 
 - Discord: [BlockPass Discord Server](https://discord.gg/blockpass)
 
 ### License
-BlockPass is licensed under the MIT License. See the [LICENSE](../LICENSE) file for more details.
+BlockPass is licensed under the MIT License. See the [LICENSE](../hardhat/LICENSE.md) file for more details.
 
 Thank you for choosing BlockPass for your event ticketing needs! 🎫🚀
